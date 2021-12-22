@@ -7,11 +7,13 @@ import com.alibabacloud.hipstershop.dao.CartDAO;
 import com.alibabacloud.hipstershop.dao.OrderDAO;
 import com.alibabacloud.hipstershop.dao.ProductDAO;
 import com.alibabacloud.hipstershop.domain.Product;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.metrics.export.prometheus.PrometheusPushGatewayManager;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +68,7 @@ public class AppController {
         response.setHeader("SERVICE_IP", registration.getHost());
     }
 
+    @Timed(value = "main_page_request_duration", description = "Time taken to return main page", histogram = true)
     @ApiOperation(value = "首页", tags = {"首页操作页面"})
     @GetMapping("/")
     public String index(Model model) {
