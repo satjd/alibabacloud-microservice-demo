@@ -16,8 +16,8 @@ spec:
         - env:
             - name: MODE
               value: "standalone"
-          image: registry-vpc.cn-shanghai.aliyuncs.com/yizhan/nacos-server:latest
-          imagePullPolicy: IfNotPresent
+          image: registry.cn-shanghai.aliyuncs.com/yizhan/nacos-server:latest
+          imagePullPolicy: Always
           name: nacos-server
           ports:
             - containerPort: 8848
@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: nacos-server
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: nacos-server
   ports:
